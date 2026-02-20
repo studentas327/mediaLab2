@@ -1,40 +1,108 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Lab2 - VR application</title>
-    <meta name="description" content="Basic example for Point Cloud component."></meta>
-    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
-    <script src="js/aframe-pointcloud-component.js"></script>
-  </head>
-  <body>
-    <a-scene>
-      <a-assets>
-        <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg">
-        <img id="skyTexture" src="https://cdn.aframe.io/a-painter/images/sky.jpg">
-      </a-assets>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VR Media Lab 2</title>
 
-      <a-plane src="#groundTexture" rotation="-90 0 0" height="100" width="100"></a-plane>
-      <a-light type="ambient" color="#445451"></a-light>
-      <a-light type="point" intensity="2" position="2 4 4"></a-light>
-      <a-sky height="2048" radius="30" src="#skyTexture" theta-length="90" width="2048"></a-sky>
-      <a-entity laser-controls line="color: red; opacity: 0.75"></a-entity>
-      <a-pointcloud 
-        scale="0.1 0.1 0.1" 
-        position="0 0.08 -2.5" 
-        rotation="-90 45 0" 
-        src="url(sculpt.ply)" 
-        size="0.01">
-      </a-pointcloud>
-      <a-pointcloud 
-        scale="0.5 0.5 0.5" 
-        position="1.5 2 0.5" 
-        src="url(Sphere.ply)" 
-        size="0.05"
-        texture="url(VGTU-logo.png)"
-        depthWrite="false">
-      </a-pointcloud>
+  <!-- A-Frame latest -->
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 
-    </a-scene>
-  </body>
+  <!-- Point cloud plugin -->
+  <script src="https://unpkg.com/aframe-pointcloud-component@0.5.0/dist/aframe-pointcloud-component.min.js"></script>
+
+  <!-- A-Frame GUI -->
+  <script src="https://unpkg.com/aframe-gui/dist/aframe-gui.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <a-scene background="color: #1b2735">
+
+    <!-- Assets -->
+    <a-assets>
+      <a-asset-item id="mainModel" src="assets/model.gltf"></a-asset-item>
+    </a-assets>
+
+    <!-- Camera -->
+    <a-entity camera look-controls position="0 1.6 0"></a-entity>
+
+    <!-- Lights -->
+    <a-light type="ambient" intensity="0.7"></a-light>
+    <a-light type="directional" position="1 3 2"></a-light>
+
+    <!-- Model -->
+    <a-entity
+      id="model"
+      gltf-model="#mainModel"
+      position="0 1.2 -3"
+      scale="1 1 1"
+      rotation="0 0 0">
+    </a-entity>
+
+    <!-- Background -->
+    <a-sky color="#1b2735"></a-sky>
+
+    <!-- GUI Control Panel -->
+    <a-entity position="0 1.2 -1.2" gui-interactable>
+
+      <a-gui-panel
+        width="2.2"
+        height="2.4"
+        background-color="#222">
+
+        <a-gui-label
+          value="Model Controls"
+          position="0 0.9 0"
+          width="1.8"
+          height="0.3">
+        </a-gui-label>
+
+        <a-gui-button
+          value="Rotate"
+          position="0 0.5 0"
+          width="1.8"
+          height="0.4"
+          onclick="rotateModel()">
+        </a-gui-button>
+
+        <a-gui-button
+          value="Move Left"
+          position="0 0.1 0"
+          width="1.8"
+          height="0.4"
+          onclick="moveLeft()">
+        </a-gui-button>
+
+        <a-gui-button
+          value="Move Right"
+          position="0 -0.3 0"
+          width="1.8"
+          height="0.4"
+          onclick="moveRight()">
+        </a-gui-button>
+
+        <a-gui-button
+          value="Zoom In"
+          position="0 -0.7 0"
+          width="1.8"
+          height="0.4"
+          onclick="zoomIn()">
+        </a-gui-button>
+
+        <a-gui-button
+          value="Zoom Out"
+          position="0 -1.1 0"
+          width="1.8"
+          height="0.4"
+          onclick="zoomOut()">
+        </a-gui-button>
+
+      </a-gui-panel>
+    </a-entity>
+
+  </a-scene>
+
+  <script src="script.js"></script>
+</body>
 </html>
