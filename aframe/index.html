@@ -2,50 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>VR Media Lab 2</title>
+  <title>Media Lab 2 – VR Application</title>
 
-  <!-- A-Frame latest -->
+  <!-- Latest A-Frame -->
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 
-  <!-- Point cloud plugin -->
+  <!-- Point cloud component -->
   <script src="https://unpkg.com/aframe-pointcloud-component@0.5.0/dist/aframe-pointcloud-component.min.js"></script>
 
   <!-- A-Frame GUI -->
   <script src="https://unpkg.com/aframe-gui/dist/aframe-gui.min.js"></script>
 
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+  </style>
 </head>
 
 <body>
   <a-scene background="color: #1b2735">
 
-    <!-- Assets -->
-    <a-assets>
-      <a-asset-item id="mainModel" src="assets/model.gltf"></a-asset-item>
-    </a-assets>
-
     <!-- Camera -->
     <a-entity camera look-controls position="0 1.6 0"></a-entity>
 
     <!-- Lights -->
-    <a-light type="ambient" intensity="0.7"></a-light>
+    <a-light type="ambient" intensity="0.8"></a-light>
     <a-light type="directional" position="1 3 2"></a-light>
 
-    <!-- Model -->
+    <!-- POINT CLOUD MODEL (ONLY ONE) -->
     <a-entity
       id="model"
-      gltf-model="#mainModel"
+      pointcloud="src: Sphere.ply; pointSize: 0.02; color: #00ffcc"
       position="0 1.2 -3"
       scale="1 1 1"
       rotation="0 0 0">
     </a-entity>
 
     <!-- Background -->
-    <a-sky color="#1b2735"></a-sky>
+    <a-sky src="VGTU-logo.png" rotation="0 -90 0"></a-sky>
 
-    <!-- GUI Control Panel -->
-    <a-entity position="0 1.2 -1.2" gui-interactable>
-
+    <!-- GUI PANEL -->
+    <a-entity position="0 1.3 -1.3" gui-interactable>
       <a-gui-panel
         width="2.2"
         height="2.4"
@@ -60,41 +60,41 @@
 
         <a-gui-button
           value="Rotate"
-          position="0 0.5 0"
           width="1.8"
           height="0.4"
+          position="0 0.5 0"
           onclick="rotateModel()">
         </a-gui-button>
 
         <a-gui-button
           value="Move Left"
-          position="0 0.1 0"
           width="1.8"
           height="0.4"
+          position="0 0.1 0"
           onclick="moveLeft()">
         </a-gui-button>
 
         <a-gui-button
           value="Move Right"
-          position="0 -0.3 0"
           width="1.8"
           height="0.4"
+          position="0 -0.3 0"
           onclick="moveRight()">
         </a-gui-button>
 
         <a-gui-button
           value="Zoom In"
-          position="0 -0.7 0"
           width="1.8"
           height="0.4"
+          position="0 -0.7 0"
           onclick="zoomIn()">
         </a-gui-button>
 
         <a-gui-button
           value="Zoom Out"
-          position="0 -1.1 0"
           width="1.8"
           height="0.4"
+          position="0 -1.1 0"
           onclick="zoomOut()">
         </a-gui-button>
 
@@ -103,6 +103,54 @@
 
   </a-scene>
 
-  <script src="script.js"></script>
+  <!-- SCRIPT -->
+  <script>
+    const model = document.querySelector('#model');
+
+    function rotateModel() {
+      const r = model.getAttribute('rotation');
+      model.setAttribute('rotation', {
+        x: r.x,
+        y: r.y + 30,
+        z: r.z
+      });
+    }
+
+    function moveLeft() {
+      const p = model.getAttribute('position');
+      model.setAttribute('position', {
+        x: p.x - 0.2,
+        y: p.y,
+        z: p.z
+      });
+    }
+
+    function moveRight() {
+      const p = model.getAttribute('position');
+      model.setAttribute('position', {
+        x: p.x + 0.2,
+        y: p.y,
+        z: p.z
+      });
+    }
+
+    function zoomIn() {
+      const s = model.getAttribute('scale');
+      model.setAttribute('scale', {
+        x: s.x + 0.1,
+        y: s.y + 0.1,
+        z: s.z + 0.1
+      });
+    }
+
+    function zoomOut() {
+      const s = model.getAttribute('scale');
+      model.setAttribute('scale', {
+        x: s.x - 0.1,
+        y: s.y - 0.1,
+        z: s.z - 0.1
+      });
+    }
+  </script>
 </body>
 </html>
